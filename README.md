@@ -34,13 +34,13 @@ dua:
 
 ```shell
 # Show all installable versions
-asdf list-all dua
+asdf list all dua
 
 # Install specific version
 asdf install dua latest
 
 # Set a version globally (on your ~/.tool-versions file)
-asdf global dua latest
+asdf set -u dua latest
 
 # Now dua commands are available
 dua --help
