@@ -43,24 +43,24 @@ list_all_versions() {
 # dua-v2.30.1-x86_64-pc-windows-msvc.zip
 # dua-v2.30.1-x86_64-unknown-linux-musl.tar.gz
 get_platform() {
-  local os arch
-  os=$(uname | tr '[:upper:]' '[:lower:]')
-  arch=$(uname -m)
-  if [[ "$os" == "linux" ]]; then
-    case "$(arch)" in
-      aarch64)
-        echo aarch64-unknown-linux-musl
-        ;;
-      armv7l)
-        echo arm-unknown-linux-gnueabihf
-        ;;
-      *)
-        echo "x86_64-unknown-linux-musl"
-        ;;
-    esac
-  else
-    echo "x86_64-apple-darwin"
-  fi
+	local os arch
+	os=$(uname | tr '[:upper:]' '[:lower:]')
+	arch=$(uname -m)
+	if [[ "$os" == "linux" ]]; then
+		case "$(arch)" in
+		aarch64)
+			echo aarch64-unknown-linux-musl
+			;;
+		armv7l)
+			echo arm-unknown-linux-gnueabihf
+			;;
+		*)
+			echo "x86_64-unknown-linux-musl"
+			;;
+		esac
+	else
+		echo "x86_64-apple-darwin"
+	fi
 }
 
 download_release() {
