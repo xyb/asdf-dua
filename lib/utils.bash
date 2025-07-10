@@ -36,13 +36,40 @@ list_all_versions() {
 	list_github_tags
 }
 
+# dua-v2.30.1-aarch64-unknown-linux-musl.tar.gz
+# dua-v2.30.1-arm-unknown-linux-gnueabihf.tar.gz
+# dua-v2.30.1-i686-pc-windows-msvc.zip
+# dua-v2.30.1-x86_64-apple-darwin.tar.gz
+# dua-v2.30.1-x86_64-pc-windows-msvc.zip
+# dua-v2.30.1-x86_64-unknown-linux-musl.tar.gz
+get_platform() {
+  local os arch
+  os=$(uname | tr '[:upper:]' '[:lower:]')
+  arch=$(uname -m)
+  if [[ "$os" == "linux" ]]; then
+    case "$(arch)" in
+      aarch64)
+        echo aarch64-unknown-linux-musl
+        ;;
+      armv7l)
+        echo arm-unknown-linux-gnueabihf
+        ;;
+      *)
+        echo "x86_64-unknown-linux-musl"
+        ;;
+    esac
+  else
+    echo "x86_64-apple-darwin"
+  fi
+}
+
 download_release() {
-	local version filename url
+	local version filename url platform
 	version="$1"
 	filename="$2"
+	platform=$(get_platform)
 
-	# TODO: Adapt the release URL convention for dua
-	url="$GH_REPO/archive/v${version}.tar.gz"
+	url="$GH_REPO/releases/download/v${version}/dua-v${version}-${platform}.tar.gz"
 
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
